@@ -12,7 +12,7 @@ import com.rohit.auth_backend.model.User;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://benevolent-nougat-99bfa1.netlify.app")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -33,17 +33,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-    	System.out.println("User: "+user.toString());
+
         boolean valid = authService.login(user);
 
         if(valid) {
-        	return ResponseEntity.ok(
-                    Map.of(
-                        "status", "success",
-                        "message", "Login Successfully"
-                    )
-                );
+            return ResponseEntity.ok(
+                Map.of(
+                    "status", "success",
+                    "message", "Login Successfully",
+                    "token", "dummy-token-123"
+                )
+            );
         }
-        return ResponseEntity.status(401).body("Invalid Credentials");
+
+        return ResponseEntity.status(401).body(
+            Map.of("status", "error", "message", "Invalid Credentials")
+        );
     }
 }
