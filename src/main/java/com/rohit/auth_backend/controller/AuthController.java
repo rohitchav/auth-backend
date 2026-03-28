@@ -34,14 +34,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
 
-        boolean valid = authService.login(user);
+        User loggedInUser = authService.login(user);
 
-        if(valid) {
+        if (loggedInUser != null) {
             return ResponseEntity.ok(
                 Map.of(
                     "status", "success",
                     "message", "Login Successfully",
-                    "token", "dummy-token-123"
+                    "token", "dummy-token-123",
+                    "username", loggedInUser.getName(),   // 🔥 send username
+                    "userId", loggedInUser.getId()        // 🔥 send userId
                 )
             );
         }

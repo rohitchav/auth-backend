@@ -18,9 +18,9 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public boolean login(User user) {
+    public User login(User user) {
         return userRepository.findByEmail(user.getEmail())
-                .map(u -> u.getPassword().equals(user.getPassword()))
-                .orElse(false);
+                .filter(u -> u.getPassword().equals(user.getPassword()))
+                .orElse(null);
     }
 }
