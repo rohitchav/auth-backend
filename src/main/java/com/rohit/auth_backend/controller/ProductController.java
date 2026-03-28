@@ -19,7 +19,22 @@ public class ProductController {
     public ProductController(ProductService service) {
         this.service = service;
     }
+   
+    // ✅ UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long id,
+                                           @RequestBody Product product) {
 
+        Product updated = service.updateProduct(id, product);
+
+        return ResponseEntity.ok(
+            Map.of(
+                "status", "success",
+                "message", "Product Updated Successfully",
+                "data", updated
+            )
+        );
+    }
     // ✅ GET
     @GetMapping("/{userId}")
     public List<Product> getProducts(@PathVariable Long userId) {
@@ -42,21 +57,7 @@ public class ProductController {
         );
     }
 
-    // ✅ UPDATE
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id,
-                                           @RequestBody Product product) {
-
-        Product updated = service.updateProduct(id, product);
-
-        return ResponseEntity.ok(
-            Map.of(
-                "status", "success",
-                "message", "Product Updated Successfully",
-                "data", updated
-            )
-        );
-    }
+ 
 
     // ✅ DELETE
     @DeleteMapping("/{id}")
